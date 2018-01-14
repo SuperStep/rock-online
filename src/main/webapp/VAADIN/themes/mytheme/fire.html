@@ -1,0 +1,52 @@
+<html>
+
+<body bgcolor="000000">
+
+ <img  id="nox" src="img/6.jpg">
+ <img id="box" src="img/3.jpg">
+
+
+  <style>
+  #box {
+    width: 15%;
+    height: 250px;
+    position: absolute;
+    bottom: 0;
+  }
+  #nox {
+    width: 25%;
+    height: 65%;
+    position: absolute;
+    bottom: 0;
+  }
+</style>
+
+<div id="container">
+  <div id="box"> </div>
+</div>
+
+<script>
+window.onload = function() {
+
+  var pos=-150;
+  var box = document.getElementById('box');
+  var t = setInterval(move, 10);
+
+  function move() {
+    if(pos >= 0) {
+      clearInterval(t);
+    }
+    else {
+    pos += 1;
+    box.style.bottom = pos+'px';
+    }
+
+  }
+
+};
+
+</script>
+
+</body>
+
+</html>
