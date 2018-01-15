@@ -36,4 +36,8 @@ public class SoundPlayer {
         isPlaying = false;
     }
 
+    public void play(String httpskycastsu2007rockonline) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

@@ -83,6 +83,16 @@
             <version>0.2.1</version>
         </dependency>
         <dependency>
+            <groupId>org.vaadin.addons</groupId>
+            <artifactId>soundplayer</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.appreciated</groupId>
+            <artifactId>app-layout-addon</artifactId>
+            <version>0.9.19</version>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>8.0</version>

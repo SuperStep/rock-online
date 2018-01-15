@@ -13,12 +13,11 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 public class Player extends ResponsiveColumn{
     
-    Panel streamPanel = new Panel();
+    //Panel streamPanel = new Panel();
     VerticalLayout streamPanelContent = new VerticalLayout();
     Image coverImg = new Image();
     Label artistInfo = new Label();
@@ -30,16 +29,16 @@ public class Player extends ResponsiveColumn{
         
         super(12, 12,12, 12);
         
-        setAlignment(ResponsiveColumn.ColumnComponentAlignment.CENTER);
-        
-        streamPanel.setCaption("В эфире");
-        streamPanel.setContent(streamPanelContent);
+        //setAlignment(ResponsiveColumn.ColumnComponentAlignment);
+        setContent(streamPanelContent);
+        streamPanelContent.setSizeUndefined();
+//        streamPanel.setCaption("В эфире");
+//        streamPanel.setContent(streamPanelContent);
         streamPanelContent.addComponents(coverImg, artistInfo);
         streamPanelContent.setComponentAlignment(coverImg, Alignment.TOP_CENTER);
+        coverImg.setSizeFull();
         streamPanelContent.setComponentAlignment(artistInfo, Alignment.MIDDLE_CENTER);
     
-        setComponent(streamPanel);
-        
         InitPlayer();
         //InitAlternative();
         
@@ -88,7 +87,7 @@ public class Player extends ResponsiveColumn{
     public void showTrack(String info){      
         Notification trackNotification = new Notification("Сейчас играет: "+info);
         trackNotification.setPosition(Position.BOTTOM_CENTER);
-        trackNotification.setDelayMsec(10000);
+        trackNotification.setDelayMsec(20000);
         trackNotification.setIcon(VaadinIcons.PLAY_CIRCLE);
         trackNotification.show(Page.getCurrent()); 
     }
