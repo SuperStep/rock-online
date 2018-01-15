@@ -51,17 +51,17 @@ public class MyUI extends UI {
                 .addClickable("Нажми меня", VaadinIcons.QUESTION, clickEvent -> {/*Click Event*/})
                 .build();
         setContent(layout);
-        
-        //UI UPDATER
-        ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
-        exec.scheduleAtFixedRate(() -> {
-            final MyUI ui = MyUI.this;
-            ui.access(() -> {
-                mainView.CheckTrack();
-                ui.push();
-            });
-        }, 0, 5, TimeUnit.SECONDS);
-        //UI UPDATER
+        mainView.CheckTrack();
+//        //UI UPDATER
+//        ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+//        exec.scheduleAtFixedRate(() -> {
+//            final MyUI ui = MyUI.this;
+//            ui.access(() -> {
+//                mainView.CheckTrack();
+//                ui.push();
+//            });
+//        }, 0, 5, TimeUnit.SECONDS);
+//        //UI UPDATER
 
     }
     
