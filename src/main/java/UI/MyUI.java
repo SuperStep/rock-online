@@ -1,5 +1,6 @@
 package UI;
 
+import backend.Login;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
@@ -8,10 +9,8 @@ import com.vaadin.ui.*;
 import com.github.appreciated.app.layout.behaviour.AppLayout;
 import com.github.appreciated.app.layout.behaviour.Behaviour;
 import com.github.appreciated.app.layout.builder.AppLayoutBuilder;
-import static com.github.appreciated.app.layout.builder.AppLayoutBuilder.Position.FOOTER;
 import static com.github.appreciated.app.layout.builder.AppLayoutBuilder.Position.HEADER;
 import com.github.appreciated.app.layout.builder.design.AppBarDesign;
-import com.github.appreciated.app.layout.builder.elements.SubmenuBuilder;
 import com.github.appreciated.app.layout.builder.entities.DefaultBadgeHolder;
 import com.github.appreciated.app.layout.component.MenuHeader;
 import com.vaadin.annotations.Push;
@@ -19,10 +18,12 @@ import com.vaadin.annotations.Viewport;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.server.ExternalResource;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import com.vaadin.server.Page;
+import com.vaadin.shared.Position;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.annotation.WebServlet;
+
 
 @Push
 @Viewport("width=device-width,initial-scale=1.0,user-scalable=no")
@@ -31,8 +32,15 @@ public class MyUI extends UI {
 
     MainView mainView = new MainView();
     
+    String userCode;
+    
+    Login vkLogin;
+    
     @Override
     protected void init(VaadinRequest vaadinRequest) {
+        
+        
+
         
         DefaultBadgeHolder holder = new DefaultBadgeHolder(); 
         holder.increase();   
@@ -52,6 +60,17 @@ public class MyUI extends UI {
                 .build();
         setContent(layout);
         mainView.CheckTrack();
+        
+        vkLogin.userCode = vaadinRequest.getParameter("code");
+        
+        if( userCode != null){
+            //ee718b229fc4edd524
+            vkLogin.Auth(userCode);
+        }else{          
+            vkLogin = new Login();
+            getUI().getPage().setLocation(vkLogin.url);             
+        }
+
 //        //UI UPDATER
 //        ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
 //        exec.scheduleAtFixedRate(() -> {
@@ -71,11 +90,20 @@ public class MyUI extends UI {
     public static class View4 extends VerticalLayout implements View {}
     public static class View5 extends VerticalLayout implements View {}
     public static class View6 extends VerticalLayout implements View {}   
-    
+
+
     
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
-    public static class MyUIServlet extends VaadinServlet {
+    public static class MyUIServlet extends VaadinServlet { 
+    }  
+       
+    
+    private void showError(Object e){
+        Notification errorNotif = new Notification("ERROR:", e.toString());
+        errorNotif.setPosition(Position.BOTTOM_RIGHT);
+        errorNotif.setDelayMsec(100000);
+        errorNotif.show(Page.getCurrent());       
     }
 }
 

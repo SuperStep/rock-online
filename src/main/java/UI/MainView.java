@@ -11,6 +11,9 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
+import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import java.util.Timer;
@@ -35,14 +38,23 @@ public class MainView extends VerticalLayout implements View {
     
     public MainView(){
         
-    
+        
         addComponent(responsiveLayout);
-        responsiveLayout.setSizeFull();
-        responsiveLayout.setScrollable(true);   
-        responsiveLayout.addRow(rootRow);
-        rootRow.setHeight("100%");  
-        rootRow.addColumn(player.withDisplayRules(12, 12, 3, 3));  
-        rootRow.addColumn(content.withDisplayRules(12, 12, 9, 9)); 
+        responsiveLayout.addComponent(player);
+        // Does nothing but causes a request
+        Button button = new Button ("Make a request");
+        responsiveLayout.addComponent(button);
+        
+        String urlStr = "https://oauth.vk.com/authorize?"
+                + "client_id=6339048"
+                + "&display=popup"
+                + "&redirect_uri=https://ro-ui.herokuapp.com/callback"
+                + "&scope=friends"
+                + "&response_type=code"
+                + "&v=5.71";
+
+        
+        
 
     }
     
@@ -76,6 +88,7 @@ public class MainView extends VerticalLayout implements View {
         }      
     }
     
+
     
     private void showError(Exception e){
         Notification errorNotif = new Notification("ERROR:", e.toString());

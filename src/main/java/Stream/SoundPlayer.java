@@ -18,6 +18,10 @@ public class SoundPlayer {
     }
 
     public void play(){
+        
+        
+        
+        
         String script = "if (document.getElementById('" + url.hashCode() + "') == null) {" +
                 "var audio = document.createElement('audio');" +
                 "audio.class = 'hidden';" +
@@ -30,6 +34,9 @@ public class SoundPlayer {
         JavaScript.getCurrent().execute(script);
         isPlaying = true;
     }
+    
+    
+    
     
     public void stop() {
         JavaScript.getCurrent().remove();
