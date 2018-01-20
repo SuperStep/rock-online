@@ -1,22 +1,12 @@
 
 package backend;
 
-
-
-
-import com.google.gson.JsonElement;
 import com.vk.api.sdk.client.TransportClient;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
-import com.vk.api.sdk.exceptions.ApiException;
-import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.UserAuthResponse;
 import com.vk.api.sdk.objects.account.UserSettings;
-import com.vk.api.sdk.queries.account.AccountGetProfileInfoQuery;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 public class VKApi {
   
@@ -41,28 +31,14 @@ public class VKApi {
     
     
     public void Auth() throws Exception{
-        
-
         UserAuthResponse authResponse = vk.oauth() 
-        .userAuthorizationCodeFlow(6339048, "6G47ehk7b0kkRNnSNA6Y", "https://ro-ui.herokuapp.com/", userCode) 
-        .execute();
-        
+        .userAuthorizationCodeFlow(6339048, "6G47ehk7b0kkRNnSNA6Y", "https://ro-ui.herokuapp.com/", userCode)
+        .execute();      
         actor = new UserActor(authResponse.getUserId(), authResponse.getAccessToken()); 
-
     }
     
-    public UserSettings getUserInfo(){
-        
-        UserSettings response = null;
-        try {
-            response = vk.account().getProfileInfo(actor).execute();
-        } catch (ApiException ex) {
-            Logger.getLogger(VKApi.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClientException ex) {
-            Logger.getLogger(VKApi.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return response;
+    public UserSettings getUserInfo() throws Exception{      
+        return vk.account().getProfileInfo(actor).execute();           
     }
     
 

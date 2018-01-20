@@ -20,7 +20,9 @@ import com.vaadin.navigator.View;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
-import com.vk.api.sdk.client.actors.UserActor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javax.servlet.annotation.WebServlet;
 
 
@@ -38,50 +40,48 @@ public class MyUI extends UI {
 
         DefaultBadgeHolder holder = new DefaultBadgeHolder(); 
         holder.increase();   
-        //Predef VIEW
         
-     
-          AppLayout layout = AppLayoutBuilder.get(Behaviour.LEFT_RESPONSIVE_OVERLAY_NO_APP_BAR)
-                .withTitle("RockOnline")
-                .withDefaultNavigationView(mainView)
-                .withDesign(AppBarDesign.DEFAULT)
-                .add(new MenuHeader(new ExternalResource("http://bpodryad.ru/data/otcher/RRO-logo.png")), HEADER)
-                .add("Эфир", VaadinIcons.PLAY_CIRCLE_O, holder, mainView)
-                .add("События", VaadinIcons.LIST, View2.class)
-                .add("Расписание", VaadinIcons.SPLINE_CHART, View2.class) 
-                .add("О нас", VaadinIcons.GROUP, View2.class)   
-                .addClickable("Нажми меня", VaadinIcons.QUESTION, clickEvent -> {/*Click Event*/})
-                .build();
+        AppLayout layout = AppLayoutBuilder.get(Behaviour.LEFT_RESPONSIVE_OVERLAY_NO_APP_BAR)
+              .withTitle("RockOnline")
+              .withDefaultNavigationView(mainView)
+              .withDesign(AppBarDesign.DEFAULT)
+              .add(new MenuHeader(new ExternalResource("http://bpodryad.ru/data/otcher/RRO-logo.png")), HEADER)
+              .add("Эфир", VaadinIcons.PLAY_CIRCLE_O, holder, mainView)
+              .add("События", VaadinIcons.LIST, View2.class)
+              .add("Расписание", VaadinIcons.SPLINE_CHART, View2.class) 
+              .add("О нас", VaadinIcons.GROUP, View2.class)   
+              .addClickable("Нажми меня", VaadinIcons.QUESTION, clickEvent -> {/*Click Event*/})
+              .build();
         setContent(layout);
         mainView.CheckTrack();
         
+        InitLogin(vaadinRequest);
+
+
+    }
+    
+    private void InitLogin(VaadinRequest vaadinRequest){  
         vkApi = new VKApi();
         vkApi.userCode = vaadinRequest.getParameter("code");
-        
-        try{    
-            if( vkApi.userCode != null){            
+        try{if( vkApi.userCode != null){            
                 vkApi.Auth();
-                
-                
                 showMessage(vkApi.getUserInfo().getFirstName());
-            }else{                        
-                getUI().getPage().setLocation(vkApi.url);             
-            }
+            }else{getUI().getPage().setLocation(vkApi.url);}
+            
         }catch (Exception ex){
             showError(ex);
-        }          
-
-//        //UI UPDATER
-//        ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
-//        exec.scheduleAtFixedRate(() -> {
-//            final MyUI ui = MyUI.this;
-//            ui.access(() -> {
-//                mainView.CheckTrack();
-//                ui.push();
-//            });
-//        }, 0, 5, TimeUnit.SECONDS);
-//        //UI UPDATER
-
+        }     
+    }
+    
+    private void InitThreads(){
+        ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+        exec.scheduleAtFixedRate(() -> {
+            final MyUI ui = MyUI.this;
+            ui.access(() -> {
+                mainView.CheckTrack();
+                ui.push();
+            });
+        }, 0, 5, TimeUnit.SECONDS);
     }
     
     //public static class MainView extends VerticalLayout implements View {}
