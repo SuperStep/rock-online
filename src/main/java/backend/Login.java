@@ -9,7 +9,6 @@ import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.UserAuthResponse;
-import com.vk.api.sdk.queries.account.AccountGetInfoQuery;
 
 
 public class Login {
@@ -27,14 +26,11 @@ public class Login {
     
     public String userCode;
     
-    public Login(String code){
-        
-
-
+    public Login(){
     }  
     
     
-    public void Auth(String code) throws Exception{
+    public String Auth(String code) throws Exception{
         transportClient = HttpTransportClient.getInstance(); 
         vk = new VkApiClient(transportClient);    
         UserAuthResponse authResponse = vk.oauth() 
@@ -42,8 +38,8 @@ public class Login {
         .execute(); 
 
         UserActor actor = new UserActor(authResponse.getUserId(), authResponse.getAccessToken()); 
-        
-        AccountGetInfoQuery getResponse = vk.account().getInfo(actor); 
+        return actor.toString();
+        //AccountGetInfoQuery getResponse = vk.account().getInfo(actor); 
     }
     
 

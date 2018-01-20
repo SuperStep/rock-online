@@ -38,10 +38,7 @@ public class MyUI extends UI {
     
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        
-        
 
-        
         DefaultBadgeHolder holder = new DefaultBadgeHolder(); 
         holder.increase();   
         //Predef VIEW
@@ -62,14 +59,17 @@ public class MyUI extends UI {
         mainView.CheckTrack();
         
         vkLogin.userCode = vaadinRequest.getParameter("code");
-        
-        if( userCode != null){
-            //ee718b229fc4edd524
-            vkLogin.Auth(userCode);
-        }else{          
-            vkLogin = new Login();
-            getUI().getPage().setLocation(vkLogin.url);             
-        }
+ 
+        try{    
+            if( userCode != null){
+                showMessage(vkLogin.Auth(userCode));
+            }else{          
+                vkLogin = new Login();
+                getUI().getPage().setLocation(vkLogin.url);             
+            }
+        }catch (Exception ex){
+            showError(ex);
+        }          
 
 //        //UI UPDATER
 //        ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
@@ -105,5 +105,13 @@ public class MyUI extends UI {
         errorNotif.setDelayMsec(100000);
         errorNotif.show(Page.getCurrent());       
     }
+     
+    private void showMessage(String text){
+        Notification errorNotif = new Notification("INFO:", text);
+        errorNotif.setPosition(Position.BOTTOM_RIGHT);
+        errorNotif.setDelayMsec(100000);
+        errorNotif.show(Page.getCurrent());       
+    }   
+    
 }
 
