@@ -67,9 +67,7 @@ public class MyUI extends UI {
         vkApi.userCode = vaadinRequest.getParameter("code");
         try{if( vkApi.userCode != null){            
                 vkApi.Auth();
-                UserSettings userSettings = vkApi.getUserInfo();
-                
-                showMessage(userSettings.getFirstName() + " " + userSettings.getLastName());
+                showMessage(vkApi.actor.toString());
             }else{getUI().getPage().setLocation(vkApi.url);}
             
         }catch (Exception ex){

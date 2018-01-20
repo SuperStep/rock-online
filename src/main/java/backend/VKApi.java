@@ -6,14 +6,12 @@ import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.UserAuthResponse;
-import com.vk.api.sdk.objects.account.UserSettings;
-import com.vk.api.sdk.queries.account.AccountGetProfileInfoQuery;
 
 public class VKApi {
   
     TransportClient transportClient;
     VkApiClient vk;
-    UserActor actor;
+    public UserActor actor;
     
     public String url = "https://oauth.vk.com/authorize?"
                 + "client_id=6339048"
@@ -38,9 +36,13 @@ public class VKApi {
         actor = new UserActor(authResponse.getUserId(), authResponse.getAccessToken()); 
     }
     
-    public UserSettings getUserInfo() throws Exception{      
-        return vk.account().getProfileInfo(actor).execute();           
-    }
+//    public String getUserInfo() throws Exception{  
+//        
+//        return vk.account().getAppPermissions(actor, actor.getId()).execute().toString(); 
+//        //vk.account().getProfileInfo(actor).execute();           
+//    }
+    
+    
     
 
 }
