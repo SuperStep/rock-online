@@ -7,6 +7,7 @@ import com.vk.api.sdk.client.actors.UserActor;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.UserAuthResponse;
 import com.vk.api.sdk.objects.account.UserSettings;
+import com.vk.api.sdk.queries.account.AccountGetProfileInfoQuery;
 
 public class VKApi {
   

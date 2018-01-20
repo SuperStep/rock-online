@@ -20,6 +20,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
+import com.vk.api.sdk.objects.account.UserSettings;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -60,12 +61,15 @@ public class MyUI extends UI {
 
     }
     
-    private void InitLogin(VaadinRequest vaadinRequest){  
+    private void InitLogin(VaadinRequest vaadinRequest){
+        
         vkApi = new VKApi();
         vkApi.userCode = vaadinRequest.getParameter("code");
         try{if( vkApi.userCode != null){            
                 vkApi.Auth();
-                showMessage(vkApi.getUserInfo().getFirstName());
+                UserSettings userSettings = vkApi.getUserInfo();
+                
+                showMessage(userSettings.getFirstName() + " " + userSettings.getLastName());
             }else{getUI().getPage().setLocation(vkApi.url);}
             
         }catch (Exception ex){
