@@ -1,6 +1,6 @@
 package UI;
 
-import backend.Login;
+import backend.VKApi;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
@@ -20,8 +20,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.vk.api.sdk.client.actors.UserActor;
 import javax.servlet.annotation.WebServlet;
 
 
@@ -31,10 +30,8 @@ import javax.servlet.annotation.WebServlet;
 public class MyUI extends UI {
 
     MainView mainView = new MainView();
-    
-    String userCode;
-    
-    Login vkLogin;
+
+    VKApi vkApi;
     
     @Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -58,16 +55,17 @@ public class MyUI extends UI {
         setContent(layout);
         mainView.CheckTrack();
         
-        vkLogin = new Login();
+        vkApi = new VKApi();
+        vkApi.userCode = vaadinRequest.getParameter("code");
         
-        vkLogin.userCode = vaadinRequest.getParameter("code");
-            //vkLogin.userCode = "43b0c372f461b9273d";
         try{    
-            if( vkLogin.userCode != null){
-                showMessage(vkLogin.Auth());
-            }else{          
+            if( vkApi.userCode != null){            
+                vkApi.Auth();
                 
-                getUI().getPage().setLocation(vkLogin.url);             
+                
+                showMessage(vkApi.getUserInfo().getFirstName());
+            }else{                        
+                getUI().getPage().setLocation(vkApi.url);             
             }
         }catch (Exception ex){
             showError(ex);

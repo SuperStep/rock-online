@@ -9,6 +9,7 @@ import com.jarektoro.responsivelayout.ResponsiveRow;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.ContentMode;
@@ -37,25 +38,8 @@ public class MainView extends VerticalLayout implements View {
     };       
     
     public MainView(){
-        
-        
         addComponent(responsiveLayout);
         responsiveLayout.addComponent(player);
-        // Does nothing but causes a request
-        Button button = new Button ("Make a request");
-        responsiveLayout.addComponent(button);
-        
-        String urlStr = "https://oauth.vk.com/authorize?"
-                + "client_id=6339048"
-                + "&display=popup"
-                + "&redirect_uri=https://ro-ui.herokuapp.com/callback"
-                + "&scope=friends"
-                + "&response_type=code"
-                + "&v=5.71";
-
-        
-        
-
     }
     
     @Override
