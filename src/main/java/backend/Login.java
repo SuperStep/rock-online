@@ -30,11 +30,11 @@ public class Login {
     }  
     
     
-    public String Auth(String code) throws Exception{
+    public String Auth() throws Exception{
         transportClient = HttpTransportClient.getInstance(); 
         vk = new VkApiClient(transportClient);    
         UserAuthResponse authResponse = vk.oauth() 
-        .userAuthorizationCodeFlow(6339048, "6G47ehk7b0kkRNnSNA6Y", "https://ro-ui.herokuapp.com", code) 
+        .userAuthorizationCodeFlow(6339048, "6G47ehk7b0kkRNnSNA6Y", "https://ro-ui.herokuapp.com/", userCode) 
         .execute(); 
 
         UserActor actor = new UserActor(authResponse.getUserId(), authResponse.getAccessToken()); 

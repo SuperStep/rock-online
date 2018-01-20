@@ -58,13 +58,15 @@ public class MyUI extends UI {
         setContent(layout);
         mainView.CheckTrack();
         
+        vkLogin = new Login();
+        
         vkLogin.userCode = vaadinRequest.getParameter("code");
- 
+            //vkLogin.userCode = "43b0c372f461b9273d";
         try{    
-            if( userCode != null){
-                showMessage(vkLogin.Auth(userCode));
+            if( vkLogin.userCode != null){
+                showMessage(vkLogin.Auth());
             }else{          
-                vkLogin = new Login();
+                
                 getUI().getPage().setLocation(vkLogin.url);             
             }
         }catch (Exception ex){
@@ -99,7 +101,7 @@ public class MyUI extends UI {
     }  
        
     
-    private void showError(Object e){
+    private void showError(Exception e){
         Notification errorNotif = new Notification("ERROR:", e.toString());
         errorNotif.setPosition(Position.BOTTOM_RIGHT);
         errorNotif.setDelayMsec(100000);
