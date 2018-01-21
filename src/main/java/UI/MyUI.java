@@ -72,6 +72,7 @@ public class MyUI extends UI {
             if( vkApi.userCode != null){            
                 vkApi.Auth();
                 getUI().getPage().setLocation(currentLocationUrl);
+                vkApi.getActorInfo();
                 showMessage(vkApi.actor.getAccessToken());
             }else{
                 getUI().getPage().setLocation(vkApi.getCodeUrl());
