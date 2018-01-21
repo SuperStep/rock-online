@@ -1,8 +1,10 @@
 package backend;
 
+import Models.ArtistEvent;
 import Models.Track;
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.ArrayList;
 import net.rubyeye.xmemcached.MemcachedClient;
 import net.rubyeye.xmemcached.MemcachedClientBuilder;
 import net.rubyeye.xmemcached.XMemcachedClientBuilder;
@@ -39,32 +41,15 @@ public class Memcached_client {
         }
     }
 
-    public void Save(Object data) throws Exception{
-        client.set("data", 0, data);
-    }
-    
-    public Object Load() throws Exception{
-        return client.get("data");
-    }   
-    
-    public void SaveTrack(Track track) throws Exception{      
-        client.set("currentTrack", 0, track); 
-        client.set("currentTrackEvents", 0, track.events); 
-    }
-    
- 
     public Release getRelease() throws Exception{   
         return gson.fromJson((String)client.get("current_release"), Release.class);
         //track.events = (ArrayList<ArtistEvent>)client.get("currentTrackEvents");
     }
     
-    public void SaveTitle(String title) throws Exception{
-        client.set("currentTitle", 0, title);      
+    public ArrayList<ArtistEvent> getEvents() throws Exception{
+        return (ArrayList<ArtistEvent>)client.get("currentTrackEvents")  ;   
     } 
   
-    public String GetTitle() throws Exception{
-        return (String)client.get("currentTitle");
-    }
 
 }
   

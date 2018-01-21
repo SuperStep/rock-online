@@ -1,7 +1,6 @@
 
 package UI;
 
-import com.jarektoro.responsivelayout.ResponsiveColumn;
 import com.jarektoro.responsivelayout.ResponsiveRow;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.ExternalResource;
@@ -14,33 +13,52 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.VerticalLayout;
+import ru.blizzed.discogsdb.model.artist.Artist;
+import ru.blizzed.discogsdb.model.release.Release;
 
-public class Player extends ResponsiveColumn{
+public class Player extends ResponsiveRow{
     
-    ResponsiveRow playerLayout = new ResponsiveRow();
+    VerticalLayout playerLayout = new VerticalLayout();
+    
     Image coverImg = new Image();
     Label artistInfo = new Label();
     Button btnPlayStop = new Button();
     Label PlayerHTMLHolder;
     Boolean isPlaying;
+    Artist artist;
+    Release release;
+
    
     Player(){
-        
-        super(12, 12, 3, 3);
-            
-        setContent(playerLayout);
+       
+        addComponent(playerLayout);
         playerLayout.addComponent(coverImg);
-        playerLayout.addComponent(artistInfo);  
+        playerLayout.addComponent(new Panel("Трек", artistInfo)); 
         playerLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        
-        coverImg.addClickListener(event ->{
+
+         coverImg.addClickListener(event ->{
             playerAction();
         });
    
         InitPlayer();
+
+    }
+    
+    public void setRelease(Release _release) throws Exception{
         
-        
-       
+        this.release = _release;
+        String titleText = release.getTitle() + " - " + release.getArtists().get(0).getName() + " (" + release.getYear() + ")";
+        //COVER IMAGE
+        if(!release.getImages().isEmpty()){
+            setCover(release.getImages().get(0).getUri());
+        }else{
+            setCover(release.getThumb());
+        }
+        artistInfo.setCaption(titleText);
+        //TITLE
+        showTrack(titleText);
     }
     
     public void setCover(String thumbUrl){
@@ -57,8 +75,7 @@ public class Player extends ResponsiveColumn{
             Play();  
         }
     }
-    
-    
+     
     private void InitPlayer(){
         
         isPlaying = false;
@@ -82,6 +99,7 @@ public class Player extends ResponsiveColumn{
         JavaScript.getCurrent().execute(script);
         isPlaying = false;
     }   
+    
     public void showTrack(String info){      
         Notification trackNotification = new Notification("Сейчас играет: "+info);
         trackNotification.setPosition(Position.BOTTOM_CENTER);

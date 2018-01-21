@@ -10,6 +10,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import java.util.Timer;
@@ -35,7 +36,10 @@ public class MainView extends VerticalLayout implements View {
     
     public MainView(){
         addComponent(responsiveLayout);
-        responsiveLayout.addComponent(player);
+        responsiveLayout.addRow(player).withAlignment(Alignment.TOP_CENTER);
+//        rootRow.addColumn(player);
+//        rootRow.addColumn(content);
+        
     }
     
     @Override
@@ -58,16 +62,9 @@ public class MainView extends VerticalLayout implements View {
     
     private void UpdateTrack(){
         try {
-            
             release = cache.getRelease();
-            player.artistInfo.setCaption(cache.GetTitle());
-            if(!release.getImages().isEmpty()){
-                 player.setCover(release.getImages().get(0).getUri());
-            }else{
-                player.setCover(release.getThumb());
-            }
-            player.showTrack(release.getTitle());
-            //content.SetContent("ТУР", track.events);  
+            player.setRelease(release); 
+            content.SetContent("ТУР", cache.getEvents()); 
         } catch (Exception ex) {
             showError(ex);
         }      
