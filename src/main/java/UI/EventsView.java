@@ -2,67 +2,34 @@
 package UI;
 
 import Models.ArtistEvent;
-import com.jarektoro.responsivelayout.ResponsiveColumn;
-import com.jarektoro.responsivelayout.ResponsiveLayout;
-import com.jarektoro.responsivelayout.ResponsiveRow;
-import com.vaadin.ui.Alignment;
+import com.vaadin.navigator.View;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
 import java.util.ArrayList;
 
-public class Content extends ResponsiveColumn {
-    
-    ResponsiveRow titleRow = new ResponsiveRow();
-    ResponsiveColumn titleCol = new ResponsiveColumn(3);//3
-    ResponsiveLayout mainContentLayout = new ResponsiveLayout();
+public class EventsView extends VerticalLayout implements View {
     
     Label contentTitle = new Label();
-    ResponsiveRow contentRow = new ResponsiveRow(); 
+    Grid<ArtistEvent> eventsGrid = new Grid();
+    
+    EventsView(){
 
-    Content(){
-    	
-    	defaultContent();
-        setComponent(mainContentLayout);
-   
     }
     
-    public void defaultContent(){
-        contentRow.setHorizontalSpacing(true);
-        contentRow.setVerticalSpacing(true);
-        contentRow.setMargin(true);       
-    }
-    
-    
-    public void SetContent(String title, Object content) {
+    public void SetContent(String title, ArrayList<ArtistEvent> events) {
     	
-    	contentRow.removeAllComponents();
-    	
-        if(content instanceof ArrayList){
-            
-            EventsPanel eventsPanel = new EventsPanel();
-            
-            if(((ArrayList) content).isEmpty())
-            {
-                eventsPanel.showNoData();
-            }else{
-                
-                eventsPanel.SetEvents((ArrayList<ArtistEvent>)content);
-            }
-
-            contentRow.addColumn(eventsPanel); 
-
-        }else if(content instanceof ContentPanel){
-            
-            for (int x = 0; x < 10; x++) {
-               contentRow.addColumn((ContentPanel)content);  
-            }  
-            
-        } 
+    	removeAllComponents();
         
-        mainContentLayout.addRow(contentRow); 
-        contentRow.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);       	
-    	
-    	
+        eventsGrid.setItems(events);
+        eventsGrid.addColumn(ArtistEvent::getName).setCaption("Название");
+        eventsGrid.addColumn(ArtistEvent::getCountry).setCaption("Страна");
+        eventsGrid.addColumn(ArtistEvent::getCity).setCaption("Город");
+        eventsGrid.addColumn(ArtistEvent::getDatetime).setCaption("Дата");
+        
+        addComponent(eventsGrid);
+        eventsGrid.setSizeFull();
+
     }
-    
     
 }

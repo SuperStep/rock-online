@@ -24,7 +24,7 @@ public class MainView extends VerticalLayout implements View {
     private final ResponsiveLayout responsiveLayout = new ResponsiveLayout();
     private final ResponsiveRow rootRow = new ResponsiveRow();
     private final Player player = new Player();
-    private final Content content = new Content();
+    private final EventsView events = new EventsView();
     
     Timer timer = new Timer(true);
 
@@ -64,7 +64,7 @@ public class MainView extends VerticalLayout implements View {
         try {
             release = cache.getRelease();
             player.setRelease(release); 
-            content.SetContent("ТУР", cache.getEvents()); 
+            events.SetContent("ТУР", cache.getEvents()); 
         } catch (Exception ex) {
             showError(ex);
         }      

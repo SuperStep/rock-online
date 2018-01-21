@@ -32,13 +32,14 @@ public class Player extends ResponsiveRow{
 
    
     Player(){
-       
+        this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         addComponent(playerLayout);
+        playerLayout.setSizeFull();
+        playerLayout.addComponent(artistInfo); 
         playerLayout.addComponent(coverImg);
-        playerLayout.addComponent(new Panel("Трек", artistInfo)); 
         playerLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
-         coverImg.addClickListener(event ->{
+        coverImg.addClickListener(event ->{
             playerAction();
         });
    
