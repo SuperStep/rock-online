@@ -21,6 +21,8 @@ import com.vaadin.navigator.View;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
+import java.net.URI;
+import java.net.URL;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -65,10 +67,15 @@ public class MyUI extends UI {
         
         vkApi = new VKApi();
         vkApi.userCode = vaadinRequest.getParameter("code");
-        try{if( vkApi.userCode != null){            
+        URI currentLocationUrl =  getUI().getPage().getLocation();
+        try{
+            if( vkApi.userCode != null){            
                 vkApi.Auth();
-                showMessage(vkApi.actor.toString());
-            }else{getUI().getPage().setLocation(vkApi.url);}
+                getUI().getPage().setLocation(currentLocationUrl);
+                showMessage(vkApi.actor.getAccessToken());
+            }else{
+                getUI().getPage().setLocation(vkApi.getCodeUrl());
+            }
             
         }catch (Exception ex){
             showError(ex);

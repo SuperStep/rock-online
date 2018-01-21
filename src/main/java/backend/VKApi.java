@@ -6,6 +6,8 @@ import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.UserAuthResponse;
+import com.vk.api.sdk.objects.account.UserSettings;
+import com.vk.api.sdk.objects.apps.responses.GetResponse;
 
 public class VKApi {
   
@@ -13,13 +15,7 @@ public class VKApi {
     VkApiClient vk;
     public UserActor actor;
     
-    public String url = "https://oauth.vk.com/authorize?"
-                + "client_id=6339048"
-                + "&display=popup"
-                + "&redirect_uri=https://ro-ui.herokuapp.com/"
-                + "&scope=friends"
-                + "&response_type=code"
-                + "&v=5.71"; 
+     
     
     public String userCode;
     
@@ -36,13 +32,21 @@ public class VKApi {
         actor = new UserActor(authResponse.getUserId(), authResponse.getAccessToken()); 
     }
     
-//    public String getUserInfo() throws Exception{  
-//        
-//        return vk.account().getAppPermissions(actor, actor.getId()).execute().toString(); 
-//        //vk.account().getProfileInfo(actor).execute();           
-//    }
+    public String getCodeUrl(){
+        String url = "https://oauth.vk.com/authorize?"
+                + "client_id=6339048"
+                + "&display=popup"
+                + "&redirect_uri=https://ro-ui.herokuapp.com/"
+                + "&scope=friends"
+                + "&response_type=code"
+                + "&v=5.71";
+        return url;
+    }
     
-    
-    
-
+    public String getActorInfo() throws Exception{
+        
+        UserSettings userSettings = vk.account().getProfileInfo(actor).execute();
+        return userSettings.getFirstName();
+        
+    }
 }
