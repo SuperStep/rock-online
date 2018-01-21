@@ -1,6 +1,5 @@
 package UI;
 
-import Models.Track;
 import backend.Memcached_client;
 import com.github.appreciated.app.layout.annotations.MenuCaption;
 import com.github.appreciated.app.layout.annotations.MenuIcon;
@@ -9,21 +8,18 @@ import com.jarektoro.responsivelayout.ResponsiveRow;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
-import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import java.util.Timer;
+import ru.blizzed.discogsdb.model.release.Release;
 
 @MenuCaption("В эфире") 
 @MenuIcon(VaadinIcons.HOME)
 public class MainView extends VerticalLayout implements View {
  
-    private Track track;
+    private Release release;
     private final ResponsiveLayout responsiveLayout = new ResponsiveLayout();
     private final ResponsiveRow rootRow = new ResponsiveRow();
     private final Player player = new Player();
@@ -33,9 +29,9 @@ public class MainView extends VerticalLayout implements View {
 
     private final Memcached_client cache = new Memcached_client();
     
-    Runnable updateTask = () -> {
-        CheckTrack();
-    };       
+//    Runnable updateTask = () -> {
+//        CheckTrack();
+//    };       
     
     public MainView(){
         addComponent(responsiveLayout);
@@ -46,13 +42,13 @@ public class MainView extends VerticalLayout implements View {
     public void enter(ViewChangeEvent event) { 
     }
     
-    public void CheckTrack(){
+    public void CheckRelease(){
         try {
                 cache.Connect();  
-                Track newtrack = cache.GetCurrentTrack();
-                if(track == null){
+                Release newRelease= cache.getRelease();
+                if(release == null){
                     UpdateTrack();
-                }else if(!track.name.equals(newtrack.name)){
+                }else if(release.getId()!= newRelease.getId()){
                     UpdateTrack();
                 }
             } catch (Exception ex) {
@@ -62,11 +58,11 @@ public class MainView extends VerticalLayout implements View {
     
     private void UpdateTrack(){
         try {
-            track = cache.GetCurrentTrack();
+            release = cache.getRelease();
             player.artistInfo.setCaption(cache.GetTitle());
-            player.setCover(track.coverUrl);
-            player.showTrack(track.artist + " - " + track.name);
-            content.SetContent("ТУР", track.events);  
+            player.setCover(release.getThumb());
+            player.showTrack(release.getArtists() + " - " + release.getTitle());
+            //content.SetContent("ТУР", track.events);  
         } catch (Exception ex) {
             showError(ex);
         }      

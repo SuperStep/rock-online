@@ -1,19 +1,19 @@
 package backend;
 
-import Models.ArtistEvent;
 import Models.Track;
+import com.google.gson.Gson;
 import java.io.IOException;
-import java.util.ArrayList;
-
 import net.rubyeye.xmemcached.MemcachedClient;
 import net.rubyeye.xmemcached.MemcachedClientBuilder;
 import net.rubyeye.xmemcached.XMemcachedClientBuilder;
 import net.rubyeye.xmemcached.command.BinaryCommandFactory;
 import net.rubyeye.xmemcached.utils.AddrUtil;
+import ru.blizzed.discogsdb.model.release.Release;
 
 public class Memcached_client {
     
     MemcachedClient client;
+    Gson gson = new Gson();  
     
     public Memcached_client() {
                  
@@ -53,10 +53,9 @@ public class Memcached_client {
     }
     
  
-    public Track GetCurrentTrack() throws Exception{     
-        Track track = (Track)client.get("currentTrack"); 
-        track.events = (ArrayList<ArtistEvent>)client.get("currentTrackEvents");
-        return track;
+    public Release getRelease() throws Exception{   
+        return gson.fromJson((String)client.get("current_release"), Release.class);
+        //track.events = (ArrayList<ArtistEvent>)client.get("currentTrackEvents");
     }
     
     public void SaveTitle(String title) throws Exception{

@@ -20,7 +20,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
-import com.vk.api.sdk.objects.account.UserSettings;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -51,14 +50,12 @@ public class MyUI extends UI {
               .add("События", VaadinIcons.LIST, View2.class)
               .add("Расписание", VaadinIcons.SPLINE_CHART, View2.class) 
               .add("О нас", VaadinIcons.GROUP, View2.class)   
-              .addClickable("Нажми меня", VaadinIcons.QUESTION, clickEvent -> {/*Click Event*/})
+              .addClickable("Войти", VaadinIcons.ENTER_ARROW, clickEvent -> {InitLogin(vaadinRequest);})
               .build();
         setContent(layout);
-        mainView.CheckTrack();
+        mainView.CheckRelease();
         
-        InitLogin(vaadinRequest);
-
-
+        //InitLogin(vaadinRequest);
     }
     
     private void InitLogin(VaadinRequest vaadinRequest){
@@ -80,7 +77,7 @@ public class MyUI extends UI {
         exec.scheduleAtFixedRate(() -> {
             final MyUI ui = MyUI.this;
             ui.access(() -> {
-                mainView.CheckTrack();
+                mainView.CheckRelease();
                 ui.push();
             });
         }, 0, 5, TimeUnit.SECONDS);
