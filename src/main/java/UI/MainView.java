@@ -58,10 +58,15 @@ public class MainView extends VerticalLayout implements View {
     
     private void UpdateTrack(){
         try {
+            
             release = cache.getRelease();
             player.artistInfo.setCaption(cache.GetTitle());
-            player.setCover(release.getThumb());
-            player.showTrack(release.getArtists() + " - " + release.getTitle());
+            if(!release.getImages().isEmpty()){
+                 player.setCover(release.getImages().get(0).getUri());
+            }else{
+                player.setCover(release.getThumb());
+            }
+            player.showTrack(release.getTitle());
             //content.SetContent("ТУР", track.events);  
         } catch (Exception ex) {
             showError(ex);
