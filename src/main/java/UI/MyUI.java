@@ -1,5 +1,6 @@
 package UI;
 
+import backend.Memcached_client;
 import backend.VKApi;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -31,8 +32,10 @@ import javax.servlet.annotation.WebServlet;
 @Theme("mytheme")
 public class MyUI extends UI {
 
+    private final Memcached_client cache = new Memcached_client();
+    
     MainView mainView = new MainView();
-
+    EventsView eventsView = new EventsView();
     VKApi vkApi;
     
     @Override
@@ -47,15 +50,15 @@ public class MyUI extends UI {
               .withDesign(AppBarDesign.DEFAULT)
               .add(new MenuHeader(new ExternalResource("http://bpodryad.ru/data/otcher/RRO-logo.png")), HEADER)
               .add("Эфир", VaadinIcons.PLAY_CIRCLE_O, holder, mainView)
-              .add("События", VaadinIcons.LIST, View2.class)
+              .add("События", VaadinIcons.LIST, eventsView)
               .add("Расписание", VaadinIcons.SPLINE_CHART, View2.class) 
               .add("О нас", VaadinIcons.GROUP, View2.class)   
               .addClickable("Войти", VaadinIcons.ENTER_ARROW, clickEvent -> {InitLogin(vaadinRequest);})
               .build();
         setContent(layout);
-        mainView.CheckRelease();
+        mainView.CheckRelease(cache);
+        eventsView.Update(cache);
         
-        //InitLogin(vaadinRequest);
     }
     
     private void InitLogin(VaadinRequest vaadinRequest){
@@ -77,7 +80,7 @@ public class MyUI extends UI {
         exec.scheduleAtFixedRate(() -> {
             final MyUI ui = MyUI.this;
             ui.access(() -> {
-                mainView.CheckRelease();
+                mainView.CheckRelease(cache);
                 ui.push();
             });
         }, 0, 5, TimeUnit.SECONDS);

@@ -1,7 +1,6 @@
 package backend;
 
 import Models.ArtistEvent;
-import Models.Track;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;

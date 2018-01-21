@@ -32,12 +32,10 @@ public class Player extends ResponsiveRow{
 
    
     Player(){
-        this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         addComponent(playerLayout);
         playerLayout.setSizeFull();
         playerLayout.addComponent(artistInfo); 
         playerLayout.addComponent(coverImg);
-        playerLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
         coverImg.addClickListener(event ->{
             playerAction();
@@ -50,16 +48,20 @@ public class Player extends ResponsiveRow{
     public void setRelease(Release _release) throws Exception{
         
         this.release = _release;
-        String titleText = release.getTitle() + " - " + release.getArtists().get(0).getName() + " (" + release.getYear() + ")";
-        //COVER IMAGE
-        if(!release.getImages().isEmpty()){
-            setCover(release.getImages().get(0).getUri());
+        if(release != null){
+            String titleText = release.getTitle() + " - " + release.getArtists().get(0).getName() + " (" + release.getYear() + ")";
+            //COVER IMAGE
+            if(!release.getImages().isEmpty()){
+                setCover(release.getImages().get(0).getUri());
+            }else{
+                setCover(release.getThumb());
+            }
+            artistInfo.setCaption(titleText);
+            //TITLE
+            showTrack(titleText);
         }else{
-            setCover(release.getThumb());
+            showTrack("Track is null...");
         }
-        artistInfo.setCaption(titleText);
-        //TITLE
-        showTrack(titleText);
     }
     
     public void setCover(String thumbUrl){

@@ -7,7 +7,6 @@ import com.jarektoro.responsivelayout.ResponsiveLayout;
 import com.jarektoro.responsivelayout.ResponsiveRow;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Alignment;
@@ -24,52 +23,25 @@ public class MainView extends VerticalLayout implements View {
     private final ResponsiveLayout responsiveLayout = new ResponsiveLayout();
     private final ResponsiveRow rootRow = new ResponsiveRow();
     private final Player player = new Player();
-    private final EventsView events = new EventsView();
-    
-    Timer timer = new Timer(true);
 
-    private final Memcached_client cache = new Memcached_client();
-    
-//    Runnable updateTask = () -> {
-//        CheckTrack();
-//    };       
-    
     public MainView(){
         addComponent(responsiveLayout);
         responsiveLayout.addRow(player).withAlignment(Alignment.TOP_CENTER);
-//        rootRow.addColumn(player);
-//        rootRow.addColumn(content);
-        
     }
     
-    @Override
-    public void enter(ViewChangeEvent event) { 
-    }
-    
-    public void CheckRelease(){
+    public void CheckRelease(Memcached_client cache){
         try {
-                cache.Connect();  
-                Release newRelease= cache.getRelease();
-                if(release == null){
-                    UpdateTrack();
-                }else if(release.getId()!= newRelease.getId()){
-                    UpdateTrack();
-                }
-            } catch (Exception ex) {
-               showError(ex);
-            }             
-    }
-    
-    private void UpdateTrack(){
-        try {
-            release = cache.getRelease();
-            player.setRelease(release); 
-            events.SetContent("ТУР", cache.getEvents()); 
+            cache.Connect();  
+            Release newRelease= cache.getRelease();
+            if(release == null){
+                player.setRelease(cache.getRelease()); 
+            }else if(release.getId()!= newRelease.getId()){
+                player.setRelease(cache.getRelease()); 
+            }
         } catch (Exception ex) {
-            showError(ex);
-        }      
+           showError(ex);
+        }             
     }
-    
 
     
     private void showError(Exception e){
