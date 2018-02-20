@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 public class EventsView extends VerticalLayout implements View {
     
+    private final Memcached_client cache = new Memcached_client();
+    
     Label contentTitle = new Label();
     Grid<ArtistEvent> eventsGrid = new Grid();
     
@@ -35,8 +37,9 @@ public class EventsView extends VerticalLayout implements View {
     }
     
     
-    public void Update(Memcached_client cache){
+    public void Update(){
         try {
+            cache.Connect();
             SetContent("ТУР", cache.getEvents());  
         } catch (Exception ex) {
             showError(ex);

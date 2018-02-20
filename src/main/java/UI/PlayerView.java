@@ -7,42 +7,77 @@ import com.jarektoro.responsivelayout.ResponsiveLayout;
 import com.jarektoro.responsivelayout.ResponsiveRow;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
-import java.util.Timer;
 import ru.blizzed.discogsdb.model.release.Release;
 
 @MenuCaption("В эфире") 
 @MenuIcon(VaadinIcons.HOME)
-public class MainView extends VerticalLayout implements View {
+public class PlayerView extends VerticalLayout implements View {
  
+    private final Memcached_client cache = new Memcached_client();
+    
     private Release release;
     private final ResponsiveLayout responsiveLayout = new ResponsiveLayout();
     private final ResponsiveRow rootRow = new ResponsiveRow();
-    private final Player player = new Player();
+    Image coverImg = new Image();
+    Label artistInfo = new Label();
 
-    public MainView(){
+    public PlayerView(){
         addComponent(responsiveLayout);
-        responsiveLayout.addRow(player).withAlignment(Alignment.TOP_CENTER);
+        responsiveLayout.addRow(rootRow).withAlignment(Alignment.TOP_CENTER);
+        rootRow.addComponent(coverImg);
+        rootRow.addComponent(artistInfo);
+
     }
     
-    public void CheckRelease(Memcached_client cache){
+    public Image getCover(){
+        return coverImg;
+    }
+    
+    public void CheckRelease(){
         try {
             cache.Connect();  
             Release newRelease= cache.getRelease();
             if(release == null){
-                player.setRelease(cache.getRelease()); 
+                setRelease(cache.getRelease()); 
             }else if(release.getId()!= newRelease.getId()){
-                player.setRelease(cache.getRelease()); 
+                setRelease(cache.getRelease()); 
             }
         } catch (Exception ex) {
            showError(ex);
         }             
     }
 
+    public void setRelease(Release _release) throws Exception{
+        
+        this.release = _release;
+        if(release != null){
+            String titleText = release.getTitle() + " - " + release.getArtists().get(0).getName() + " (" + release.getYear() + ")";
+            //COVER IMAGE
+            if(!release.getImages().isEmpty()){
+                setCover(release.getImages().get(0).getUri());
+            }else{
+                setCover(release.getThumb());
+            }
+            artistInfo.setCaption(titleText);
+            //TITLE
+            showTrack(titleText);
+        }else{
+            showTrack("Track is null...");
+        }
+    }
+    
+    public void setCover(String thumbUrl){
+        coverImg.setSource(new ExternalResource(thumbUrl));
+        coverImg.setSizeFull();
+    }
     
     private void showError(Exception e){
         Notification errorNotif = new Notification("ERROR:", e.toString());
@@ -51,6 +86,13 @@ public class MainView extends VerticalLayout implements View {
         errorNotif.show(Page.getCurrent());       
     }
     
+    public void showTrack(String info){      
+        Notification trackNotification = new Notification("Сейчас играет: "+info);
+        trackNotification.setPosition(Position.BOTTOM_CENTER);
+        trackNotification.setDelayMsec(20000);
+        trackNotification.setIcon(VaadinIcons.PLAY_CIRCLE);
+        trackNotification.show(Page.getCurrent()); 
+    }
     
 }
 
