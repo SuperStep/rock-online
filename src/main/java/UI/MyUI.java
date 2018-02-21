@@ -19,6 +19,7 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Page;
+import static com.vaadin.server.Sizeable.Unit.CM;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.ContentMode;
 import java.util.concurrent.Executors;
@@ -32,8 +33,7 @@ import javax.servlet.annotation.WebServlet;
 @Viewport("width=device-width,initial-scale=1.0,user-scalable=no")
 @Theme("mytheme")
 public class MyUI extends UI {
-
-    
+   
     Label PlayerHTMLHolder;
     Label CounterHTMLHolder;
     Boolean isPlaying;
@@ -49,15 +49,16 @@ public class MyUI extends UI {
         
    
         DefaultBadgeHolder holder = new DefaultBadgeHolder(); 
-        holder.increase(); 
+        //holder.increase(); 
         
         InitPlayer();
         
         //InitCounter()
         
+        
+        
         AppLayout layout = AppLayoutBuilder.get(Behaviour.LEFT_RESPONSIVE_OVERLAY_NO_APP_BAR)
               .withTitle("RockOnline")
-              .addClickable("", VaadinIcons.PLAY_CIRCLE_O, clickEvent -> {playerAction();})
               .withDefaultNavigationView(playerView)
               .withDesign(AppBarDesign.DEFAULT)
               .add(new MenuHeader(new ExternalResource("http://bpodryad.ru/data/otcher/RRO-logo.png")), HEADER)
@@ -69,6 +70,7 @@ public class MyUI extends UI {
               .add(PlayerHTMLHolder)
               //.add(CounterHTMLHolder)
               .build();
+        
         setContent(layout);
         playerView.CheckRelease();
         eventsView.Update();
@@ -195,9 +197,8 @@ public class MyUI extends UI {
     }  
 
 
-    
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
-    @VaadinServletConfiguration(ui = MyUI.class, productionMode = false, widgetset = "UI.AppWidgetSet")
+    @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet { 
     }  
        
