@@ -14,12 +14,13 @@ $v-textfield-shadow: $v-shadow;
 $v-unit-size: 40px;
 $v-overlay-shadow: 0 0 0 3px (v-shade 8), 0 5px 10px (v-shade 4);
 $v-component-group-spacing: 6px;
+$al-bar-background-color: #444d50;
 
 @import "../valo/valo.scss";
 
 @mixin mytheme {
   @include valo;
-
+      	
       .bg_red{
           background-color: red;
       }
