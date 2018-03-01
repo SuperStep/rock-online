@@ -53,9 +53,8 @@ public class MyUI extends UI {
         
         InitPlayer();
         
-        //InitCounter()
-        
-        
+        InitCounter();
+       
         
         AppLayout layout = AppLayoutBuilder.get(Behaviour.LEFT_RESPONSIVE_OVERLAY_NO_APP_BAR)
               .withTitle("RockOnline")
