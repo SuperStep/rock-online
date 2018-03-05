@@ -10,10 +10,12 @@ import com.vaadin.navigator.View;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.PopupView;
 import com.vaadin.ui.VerticalLayout;
 import ru.blizzed.discogsdb.model.release.Release;
 
@@ -25,16 +27,24 @@ public class PlayerView extends VerticalLayout implements View {
     
     private Release release;
     private final ResponsiveLayout responsiveLayout = new ResponsiveLayout();
-    private final ResponsiveRow rootRow = new ResponsiveRow();
+    private final ResponsiveRow coverRow = new ResponsiveRow();
+    private final ResponsiveRow labelRow = new ResponsiveRow();
+    Label ButtonHTMLHolder;
+    
     Image coverImg = new Image();
     Label artistInfo = new Label();
 
     public PlayerView(){
+        
         addComponent(responsiveLayout);
-        responsiveLayout.addRow(rootRow).withAlignment(Alignment.TOP_CENTER);
-        rootRow.addComponent(coverImg);
-        rootRow.addComponent(artistInfo);
-
+        responsiveLayout.addRow(coverRow).withAlignment(Alignment.TOP_CENTER);
+        responsiveLayout.addRow(labelRow).withAlignment(Alignment.TOP_CENTER);
+        coverRow.addComponent(coverImg); 
+        coverImg.setStyleName("_coverImg");
+        //https://www.shareicon.net/download/128x128//2015/08/26/91260_play_512x512.png
+        labelRow.addComponent(artistInfo);
+        
+        InitPlayerButton();
     }
     
     public Image getCover(){
@@ -76,7 +86,17 @@ public class PlayerView extends VerticalLayout implements View {
     
     public void setCover(String thumbUrl){
         coverImg.setSource(new ExternalResource(thumbUrl));
-        coverImg.setSizeFull();
+    }
+    
+    
+    public void InitPlayerButton(){
+        String HTML = "<div class=\"imageWrapper\">\n" +
+        "  <img class=\"overlayImage\" src=\"cow.png\">\n" +
+        "  <img class=\"overlayImage\" src=\"clouds.png\">\n" +
+        "  <img class=\"overlayImage\" src=\"downpart.png\">\n" +
+        "</div>";
+        ButtonHTMLHolder = new Label(HTML);
+        ButtonHTMLHolder.setContentMode(ContentMode.HTML);
     }
     
     private void showError(Exception e){

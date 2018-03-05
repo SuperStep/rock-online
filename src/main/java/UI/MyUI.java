@@ -19,7 +19,6 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Page;
-import static com.vaadin.server.Sizeable.Unit.CM;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.ContentMode;
 import java.util.concurrent.Executors;
@@ -47,14 +46,10 @@ public class MyUI extends UI {
 
     try{
         
-   
         DefaultBadgeHolder holder = new DefaultBadgeHolder(); 
         //holder.increase(); 
         
         InitPlayer();
-        
-        //InitCounter();
-       
         
         AppLayout layout = AppLayoutBuilder.get(Behaviour.LEFT_RESPONSIVE_OVERLAY_NO_APP_BAR)
               .withTitle("RockOnline")
@@ -67,7 +62,7 @@ public class MyUI extends UI {
               .add("О нас", VaadinIcons.GROUP, View2.class)   
               .addClickable("Войти", VaadinIcons.ENTER_ARROW, clickEvent -> {InitLogin(vaadinRequest);})
               .add(PlayerHTMLHolder)
-              .add(CounterHTMLHolder)
+              //.add(CounterHTMLHolder)
               .build();
         
         setContent(layout);
@@ -164,12 +159,14 @@ public class MyUI extends UI {
         String script = "document.getElementById('player').play();";
         JavaScript.getCurrent().execute(script);
         isPlaying = true;
+        //playerView.getPlayerButton().setSource(new ExternalResource("https://www.shareicon.net/download/2015/08/26/91261_pause_512x512.png"));
     }
     
     private void Pause(){
         String script = "document.getElementById('player').pause();";
         JavaScript.getCurrent().execute(script);
         isPlaying = false;
+        //playerView.getPlayerButton().setSource(new ExternalResource("https://www.shareicon.net/download/2015/08/26/91260_play_512x512.png"));
     }  
 
 
