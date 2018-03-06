@@ -51,6 +51,7 @@ public class MyUI extends UI {
         
         InitPlayer();
         
+        
         AppLayout layout = AppLayoutBuilder.get(Behaviour.LEFT_RESPONSIVE_OVERLAY_NO_APP_BAR)
               .withTitle("RockOnline")
               .withDefaultNavigationView(playerView)
@@ -71,6 +72,8 @@ public class MyUI extends UI {
          }catch (Exception ex) {
              showError(ex);
          }
+    
+        InitPlayerButton();
     }
     
 
@@ -143,6 +146,12 @@ public class MyUI extends UI {
         "</script>";
         CounterHTMLHolder = new Label(HTML);
         CounterHTMLHolder.setContentMode(ContentMode.HTML);
+    }
+    
+    private void InitPlayerButton(){
+        String command = "var image = document.getElementsByClassName(\"_coverImg\");\n" +
+        "$(image).parent().append(\"<div class='playpause'></div>\");";
+        JavaScript.getCurrent().execute(command);
     }
     
     private void playerAction(){       
